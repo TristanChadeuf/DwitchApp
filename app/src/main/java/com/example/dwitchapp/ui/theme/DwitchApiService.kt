@@ -1,23 +1,37 @@
-package com.example.dwitchapp.ui.theme
+package com.example.dwitchapp.service
+
 import com.squareup.moshi.Moshi
 import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
+import java.util.Date
+import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter
+import model.OrdersResponse
+import retrofit2.http.GET
+import retrofit2.http.Header
 
-class DwitchApiService {
 
-    interface DwitchService {
-        // Vos requêtes ici
-    }
+interface DwitchService {
 
-    val moshi = Moshi.Builder()
-        //... Ajoutez vos adapters ici (notamment pour les dates)
+    @GET("orders?populate=*")
+    suspend fun getOrders(
+        @Header("Authorization") token: String
+    ): OrdersResponse
+}
+
+
+object ApiClient {
+    private val moshi = Moshi.Builder()
+        .add(Date::class.java, Rfc3339DateJsonAdapter())
         .build()
 
-    var retrofit = Retrofit.Builder()
+
+    private val retrofit = Retrofit.Builder()
         //... Les paramètres Retrofit ici (notamment un petit lien avec moshi)
+        .baseUrl("https://dwitch.pickle-forge.app/api/")
+        .addConverterFactory(MoshiConverterFactory.create(moshi))
         .build()
 
 
-    var dwitchService = retrofit.create(DwitchService::class.java)
-
-
+    // Puis créez votre service
+    val dwitchService: DwitchService = retrofit.create(DwitchService::class.java)
 }

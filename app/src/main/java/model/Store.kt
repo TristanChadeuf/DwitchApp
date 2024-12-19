@@ -1,5 +1,9 @@
 package model
 
+import com.squareup.moshi.JsonClass
+
+
+@JsonClass(generateAdapter = true)
 data class Store (
     val id: Long,
     val documentId: String,
