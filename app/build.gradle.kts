@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -68,6 +69,11 @@ dependencies {
     implementation(libs.timber)
     implementation(libs.retrofit)
     implementation(libs.moshi)
+    implementation(libs.androidx.navigation.runtime.ktx)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.lifecycle)
+    implementation(libs.accompanist)
     ksp(libs.codegen)
     implementation(libs.converter.moshi)
     implementation(libs.moshi.adapter)
